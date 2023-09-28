@@ -1,7 +1,11 @@
 import DiscordBM
 
-struct InteractionCreateHandler: InteractionHandler {
+class InteractionCreateHandler: InteractionHandler {
     let interaction: Interaction
+
+    init(interaction: Interaction) {
+        self.interaction = interaction
+    }
 
     func handle() async {
         do {
@@ -11,7 +15,9 @@ struct InteractionCreateHandler: InteractionHandler {
             .guardSuccess()
 
             switch interaction.data {
-            // case let .applicationCommand(command) where command.name == :
+            case let .applicationCommand(command) where command.name == CreateVerificationMessage.createPayload.name:
+                try await CreateVerificationMessage(interaction: interaction).handle()
+
             default:
                 Main.logger.error("unknown interaction: \(interaction)")
                 throw DefaultError()

@@ -7,8 +7,12 @@ import Logging
 
 @main
 class Main {
-    struct EventHandler: GatewayEventHandler {
+    final class EventHandler: GatewayEventHandler {
         let event: Gateway.Event
+
+        init(event: Gateway.Event) {
+            self.event = event
+        }
 
         func onInteractionCreate(_ interaction: Interaction) async {
             await InteractionCreateHandler(interaction: interaction).handle()
@@ -18,16 +22,16 @@ class Main {
     static var bot: BotGatewayManager!
     static var logger: Logger!
 
-    let token: String!
-    let guildId: GuildSnowflake!
-    let loggingWebhookURL: String!
+    static var token: String!
+    static var guildId: GuildSnowflake!
+    static var loggingWebhookURL: String!
 
     init() async {
         do { try DotEnv.load(path: ".env") } catch { print("not using .env file") }
 
-        token = ProcessInfo.processInfo.environment["TOKEN"]
-        guildId = GuildSnowflake(ProcessInfo.processInfo.environment["GUILD_ID"]!)
-        loggingWebhookURL = ProcessInfo.processInfo.environment["LOGGING_WEBHOOK_URL"]
+        Main.token = ProcessInfo.processInfo.environment["TOKEN"]
+        Main.guildId = GuildSnowflake(ProcessInfo.processInfo.environment["GUILD_ID"]!)
+        Main.loggingWebhookURL = ProcessInfo.processInfo.environment["LOGGING_WEBHOOK_URL"]
 
         let http = HTTPClient(eventLoopGroupProvider: .singleton)
 
@@ -36,14 +40,14 @@ class Main {
             configuration: .init(extraMetadata: [.error, .critical])
         )
         try! await LoggingSystem.bootstrapWithDiscordLogger(
-            address: .url(loggingWebhookURL)
+            address: .url(Main.loggingWebhookURL)
         ) { StreamLogHandler.standardError(label: $0, metadataProvider: $1) }
         Main.logger = .init(label: "ÜNOG Bot")
 
         let bot = await BotGatewayManager(
             eventLoopGroup: http.eventLoopGroup,
             httpClient: http,
-            token: token,
+            token: Main.token,
             intents: []
         )
 
@@ -56,12 +60,12 @@ class Main {
     static func main() async throws {
         _ = await Main()
 
-        // let commandsCreatePayload = []
-        // try await bot.client.bulkSetGuildApplicationCommands(
-        // guildId: testGuildId,
-            // payload: commandsCreatePayload
-        // )
-        // .guardSuccess()
+        let commandsCreatePayload = [CreateVerificationMessage.createPayload]
+        try await bot.client.bulkSetGuildApplicationCommands(
+            guildId: Main.guildId,
+            payload: commandsCreatePayload
+        )
+        .guardSuccess()
 
         let stream = await bot.makeEventsStream()
         for await event in stream {

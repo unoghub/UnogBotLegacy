@@ -1,9 +1,7 @@
 import DiscordBM
 
 protocol InteractionHandler {
-    var interaction: Interaction {
-        get
-    }
+    var interaction: Interaction { get }
 }
 
 extension InteractionHandler {
