@@ -12,8 +12,10 @@ struct CreateVerificationMessage: InteractionHandler {
     let interaction: Interaction
 
     func handle() async throws {
+        try await deferInteraction()
+
         let openVerificationButton = Interaction.ActionRow.Component.button(.init(
-            style: .primary, label: "Onaylanma Formunu Aç", custom_id: OpenVerificationButton.customID
+            style: .primary, label: "Onaylanma Formunu Aç", custom_id: ShowVerificationModal.customID
         ))
 
         try await followup(with: .init(components: [.init(components: [openVerificationButton])]))

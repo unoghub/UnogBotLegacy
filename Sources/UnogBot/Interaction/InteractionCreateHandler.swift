@@ -9,14 +9,12 @@ class InteractionCreateHandler: InteractionHandler {
 
     func handle() async {
         do {
-            try await Main.bot.client.createInteractionResponse(
-                id: interaction.id, token: interaction.token, payload: .deferredChannelMessageWithSource()
-            )
-            .guardSuccess()
-
             switch interaction.data {
             case let .applicationCommand(command) where command.name == CreateVerificationMessage.createPayload.name:
                 try await CreateVerificationMessage(interaction: interaction).handle()
+
+            case let .messageComponent(component) where component.custom_id == ShowVerificationModal.customID:
+                try await ShowVerificationModal(interaction: interaction).handle()
 
             default:
                 Main.logger.error("unknown interaction: \(interaction)")
