@@ -21,7 +21,7 @@ Her iki tuşta da bot onaylanma mesajını siler.
 
 Kullanıcı formu doldurduğunda bot belirlenen sheet'e tarih, form ve kullanıcı bilgilerini içeren bir satır ekler. Bu satırda _Onaylanma Durumu_, _Bekliyor_ diye ayarlanır.
 
-Kullanıcı doğrulandığında ya da reddedildiğinde bot bu satırdaki _Onaylanma Durumu_ sütununu _Onaylandı_ ya da _Reddedildi_ diye ayarlar.
+Kullanıcı onaylandığında ya da reddedildiğinde bot bu satırdaki _Onaylanma Durumu_ sütununu _Onaylandı_ ya da _Reddedildi_ diye ayarlar.
 
 ## Hostlama
 
@@ -34,3 +34,4 @@ Kullanıcı doğrulandığında ya da reddedildiğinde bot bu satırdaki _Onayla
 - `TOKEN`: Bot'un Discord Developer Portal'dan alınan token'ı
 - `GUILD_ID`: Komutların oluşturulacağı sunucunun ID'si
 - `LOGGING_WEBHOOK_URL`: Bot'un error'ları vs. için kullanılacak webhook'un linki, bu linki [Lara](https://lara.lv)'ya sorun.
+- `VERIFICATION_SUBMISSIONS_CHANNEL_ID`: Kullanıcılar onaylama formunu attığında, formun ve dogrulama butonlarının olduğu mesajın atılacağı kanalın ID'si, bu kanal sadece onaylama yetkisi olanların görebildiği bir kanal olmalı.

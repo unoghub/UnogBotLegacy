@@ -6,7 +6,7 @@ import Foundation
 import Logging
 
 @main
-class Main {
+class Core {
     final class EventHandler: GatewayEventHandler {
         let event: Gateway.Event
 
@@ -22,16 +22,12 @@ class Main {
     static var bot: BotGatewayManager!
     static var logger: Logger!
 
-    static var token: String!
-    static var guildId: GuildSnowflake!
-    static var loggingWebhookURL: String!
+    static let token = ProcessInfo.processInfo.environment["TOKEN"]!
+    static let guildId = GuildSnowflake(ProcessInfo.processInfo.environment["GUILD_ID"]!)
+    static let loggingWebhookURL = ProcessInfo.processInfo.environment["LOGGING_WEBHOOK_URL"]!
 
     init() async {
         do { try DotEnv.load(path: ".env") } catch { print("not using .env file") }
-
-        Main.token = ProcessInfo.processInfo.environment["TOKEN"]
-        Main.guildId = GuildSnowflake(ProcessInfo.processInfo.environment["GUILD_ID"]!)
-        Main.loggingWebhookURL = ProcessInfo.processInfo.environment["LOGGING_WEBHOOK_URL"]
 
         let http = HTTPClient(eventLoopGroupProvider: .singleton)
 
@@ -39,30 +35,32 @@ class Main {
             httpClient: http,
             configuration: .init(extraMetadata: [.error, .critical])
         )
+
         try! await LoggingSystem.bootstrapWithDiscordLogger(
-            address: .url(Main.loggingWebhookURL)
+            address: .url(Core.loggingWebhookURL)
         ) { StreamLogHandler.standardError(label: $0, metadataProvider: $1) }
-        Main.logger = .init(label: "ÜNOG Bot")
+
+        Core.logger = .init(label: "ÜNOG Bot")
 
         let bot = await BotGatewayManager(
             eventLoopGroup: http.eventLoopGroup,
             httpClient: http,
-            token: Main.token,
+            token: Core.token,
             intents: []
         )
 
-        Main.bot = bot
+        Core.bot = bot
 
         await bot.connect()
     }
 
     // swiftlint:disable:next unused_declaration
     static func main() async throws {
-        _ = await Main()
+        _ = await Core()
 
         let commandsCreatePayload = [CreateVerificationMessage.createPayload]
         try await bot.client.bulkSetGuildApplicationCommands(
-            guildId: Main.guildId,
+            guildId: Core.guildId,
             payload: commandsCreatePayload
         )
         .guardSuccess()

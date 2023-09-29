@@ -16,23 +16,20 @@ class InteractionCreateHandler: InteractionHandler {
             case let .messageComponent(component) where component.custom_id == ShowVerificationModal.customID:
                 try await ShowVerificationModal(interaction: interaction).handle()
 
+            case let .modalSubmit(modal) where modal.custom_id == VerificationModal.modal.custom_id:
+                try await VerificationModal(interaction: interaction).handle()
+
             default:
-                Main.logger.error("unknown interaction: \(interaction)")
+                Core.logger.error("unknown interaction: \(interaction)")
                 throw DefaultError()
             }
         } catch {
             do {
-                try await followup(
-                    with: .init(
-                        embeds: [
-                            Embed.internalError(),
-                        ]
-                    )
-                )
+                try await followup(with: .init(embeds: [Embed.internalError()]))
             } catch {
-                Main.logger.error("couldn't followup with the default error embed: \(error)")
+                Core.logger.error("couldn't followup with the default error embed: \(error)")
             }
-            Main.logger.error("couldn't handle interaction: \(error)")
+            Core.logger.error("couldn't handle interaction: \(error)")
         }
     }
 }
