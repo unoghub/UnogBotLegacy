@@ -1,6 +1,6 @@
 import DiscordBM
 
-class InteractionCreateHandler: InteractionHandler {
+class InteractionCreateHandler {
     let interaction: Interaction
 
     init(interaction: Interaction) {
@@ -9,14 +9,17 @@ class InteractionCreateHandler: InteractionHandler {
 
     func handle() async {
         do {
-            switch interaction.data {
-            case let .applicationCommand(command) where command.name == CreateVerificationMessage.createPayload.name:
+            switch interaction.name {
+            case CreateVerificationMessage.createPayload.name:
                 try await CreateVerificationMessage(interaction: interaction).handle()
 
-            case let .messageComponent(component) where component.custom_id == ShowVerificationModal.customID:
+            case ShowVerificationModal.button.customId:
                 try await ShowVerificationModal(interaction: interaction).handle()
 
-            case let .modalSubmit(modal) where modal.custom_id == VerificationModal.modal.custom_id:
+            case ApproveVerification.button.customId:
+                try await ApproveVerification(interaction: interaction).handle()
+
+            case VerificationModal.modal.custom_id:
                 try await VerificationModal(interaction: interaction).handle()
 
             default:
@@ -25,7 +28,7 @@ class InteractionCreateHandler: InteractionHandler {
             }
         } catch {
             do {
-                try await followup(with: .init(embeds: [Embed.internalError()]))
+                try await interaction.followup(with: .init(embeds: [Embed.internalError()]))
             } catch {
                 Core.logger.error("couldn't followup with the default error embed: \(error)")
             }

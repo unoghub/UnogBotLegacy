@@ -1,14 +1,14 @@
 import DiscordBM
 
-struct VerificationModal: InteractionHandler {
+struct VerificationModal {
     static let maxNicknameCharCount = 32
 
     static let modal = Payloads.InteractionResponse.Modal(
-        custom_id: "VerificationModal", title: "Onaylanma Formu", textInputs: [
+        custom_id: "VerificationModal", title: "📝 Onaylanma Formu", textInputs: [
             .init(
                 custom_id: "NameSurname",
                 style: .short,
-                label: "İsim Soyisim",
+                label: VerificationModal.nameSurnameFieldName,
                 max_length: VerificationModal.maxNicknameCharCount
             ),
             .init(custom_id: "Email", style: .short, label: "E-Posta Adresi"),
@@ -18,6 +18,9 @@ struct VerificationModal: InteractionHandler {
         ]
     )
 
+    static let nameSurnameFieldName = "İsim Soyisim"
+    static let userFieldName = "Kullanıcı"
+
     let interaction: Interaction
 
     func handle() async throws {
@@ -26,7 +29,7 @@ struct VerificationModal: InteractionHandler {
             throw DefaultError()
         }
 
-        try await deferInteraction(isEphemeral: true)
+        try await interaction.ack(isEphemeral: true)
 
         var textInputs: [Interaction.ActionRow.TextInput] = []
         for actionRow in modalSubmit.components {
@@ -34,11 +37,11 @@ struct VerificationModal: InteractionHandler {
         }
 
         var embed = Embed(
-            title: "Onaylama formu dolduruldu",
+            title: "❔ Onaylama formu dolduruldu",
             color: .blue,
             fields: [
                 .init(
-                    name: "Kullanıcı",
+                    name: VerificationModal.userFieldName,
                     value: "<@\(try interaction.member.requireValue().user.requireValue().id.rawValue)>"
                 )
             ]
@@ -59,13 +62,13 @@ struct VerificationModal: InteractionHandler {
 
         try await Core.bot.client.createMessage(
             channelId: VerificationCore.submissionChannelId,
-            payload: .init(embeds: [embed])
+            payload: .init(embeds: [embed], components: [.init(components: [ApproveVerification.button])])
         )
         .guardSuccess()
 
-        try await followup(with: .init(embeds: [
+        try await interaction.followup(with: .init(embeds: [
             Embed(
-                title: "Onaylama formunuz iletildi",
+                title: "📨 Onaylama formunuz iletildi",
                 description: "Formunuzda bir sorun yoksa yakında onaylanacaksınız. Şimdiden hoş geldiniz!",
                 color: .green
             )

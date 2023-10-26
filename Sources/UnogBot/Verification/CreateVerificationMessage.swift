@@ -1,7 +1,7 @@
 import DiscordBM
 import Foundation
 
-struct CreateVerificationMessage: InteractionHandler {
+struct CreateVerificationMessage {
     static let createPayload = Payloads.ApplicationCommandCreate(
         name: "onaylanma_mesajını_at",
         description: "Bu kanala onaylanma mesajını at",
@@ -12,12 +12,8 @@ struct CreateVerificationMessage: InteractionHandler {
     let interaction: Interaction
 
     func handle() async throws {
-        try await deferInteraction()
+        try await interaction.ack()
 
-        let openVerificationButton = Interaction.ActionRow.Component.button(.init(
-            style: .primary, label: "Onaylanma Formunu Aç", custom_id: ShowVerificationModal.customID
-        ))
-
-        try await followup(with: .init(components: [.init(components: [openVerificationButton])]))
+        try await interaction.followup(with: .init(components: [.init(components: [ShowVerificationModal.button])]))
     }
 }
