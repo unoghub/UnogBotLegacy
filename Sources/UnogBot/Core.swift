@@ -19,12 +19,28 @@ class Core {
         }
     }
 
-    static var bot: BotGatewayManager!
+    static let http = HTTPClient(eventLoopGroupProvider: .singleton)
+    static let (jsonEncoder, jsonDecoder) = {
+        var encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+
+        var decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        return (encoder, decoder)
+    }()
     static var logger: Logger!
+    static var bot: BotGatewayManager!
+    static var sheet: GoogleSheetsAPI!
 
     static let token = ProcessInfo.processInfo.environment["TOKEN"]!
     static let guildId = GuildSnowflake(ProcessInfo.processInfo.environment["GUILD_ID"]!)
     static let loggingWebhookURL = ProcessInfo.processInfo.environment["LOGGING_WEBHOOK_URL"]!
+    static let spreadsheetID = ProcessInfo.processInfo.environment["SPREADSHEET_ID"]!
+    static let googleServiceAccountEmail = ProcessInfo.processInfo.environment["GOOGLE_SERVICE_ACCOUNT_EMAIL"]!
+    static let googleServiceAccountPrivateKey = try! Data(
+        contentsOf: URL(fileURLWithPath: "GoogleServiceAccountPrivateKey.key"), options: .alwaysMapped
+    )
 
     init() async {
         do { try DotEnv.load(path: ".env") } catch { print("not using .env file") }
@@ -33,7 +49,7 @@ class Core {
 
         DiscordGlobalConfiguration.logManager = await .init(
             httpClient: http,
-            configuration: .init(extraMetadata: [.error, .critical])
+            configuration: .init(sendFullLogAsAttachment: .enabled, extraMetadata: [.error, .critical])
         )
 
         try! await LoggingSystem.bootstrapWithDiscordLogger(
@@ -50,6 +66,8 @@ class Core {
         )
 
         Core.bot = bot
+
+        Core.sheet = try! .init(spreadsheetID: Core.spreadsheetID)
 
         await bot.connect()
     }

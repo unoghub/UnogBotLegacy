@@ -12,10 +12,11 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/DiscordBM/DiscordBM", branch: "main"),
-        .package(url: "https://github.com/DiscordBM/DiscordLogger", from: "1.0.0-beta.1"),
-        .package(url: "https://github.com/realm/SwiftLint", from: "0.1.0"),
+        .package(url: "https://github.com/DiscordBM/DiscordBM.git", from: "1.0.0"),
+        .package(url: "https://github.com/DiscordBM/DiscordLogger.git", exact: "1.0.0-rc.2"),
         .package(url: "https://github.com/swiftpackages/DotEnv.git", from: "3.0.0"),
+        .package(url: "https://github.com/realm/SwiftLint.git", from: "0.0.0"),
+        .package(url: "https://github.com/Kitura/Swift-JWT.git", from: "4.0.0"),
     ],
     targets: [
         .executableTarget(
@@ -23,6 +24,7 @@ let package = Package(
             dependencies: [
                 .product(name: "DiscordBM", package: "DiscordBM"),
                 .product(name: "DiscordLogger", package: "DiscordLogger"),
+                .product(name: "SwiftJWT", package: "Swift-JWT"),
                 .product(name: "DotEnv", package: "DotEnv"),
             ],
             plugins: [

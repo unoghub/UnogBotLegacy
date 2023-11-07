@@ -23,7 +23,7 @@ struct ApproveVerification {
             embedFields.first { $0.name == VerificationModal.userFieldName }?.value
                 .dropFirst(ApproveVerification.mentionStartCharacterCount)
                 .dropLast(ApproveVerification.mentionEndCharacterCount)
-            ).requireValue()))
+        ).requireValue()))
         let nameSurname = try embedFields.first { $0.name == VerificationModal.nameSurnameFieldName }
             .requireValue()
             .value
@@ -33,8 +33,12 @@ struct ApproveVerification {
         )
         .guardSuccess()
 
+        let rowIndex = try await Core.sheet.getSpreadsheet().sheets.first.requireValue().properties.gridProperties.rowCount - 1
+        let cellRange = "Onaylanmalar!G\(rowIndex)"
+        try await Core.sheet.update(range: cellRange, values: .init(range: cellRange, values: [["Onaylandı"]]))
+
         try await interaction.editLast(with: .init(embeds: [
-            .init(title: "✅ Kullanıcı doğrulandı", color: .green, fields: [
+            .init(title: "✅ Kullanıcı onaylandı", color: .green, fields: [
                 .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı")
             ])
         ]))

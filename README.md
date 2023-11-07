@@ -33,5 +33,13 @@ Kullanıcı onaylandığında ya da reddedildiğinde bot bu satırdaki _Onaylanm
 
 - `TOKEN`: Bot'un Discord Developer Portal'dan alınan token'ı
 - `GUILD_ID`: Komutların oluşturulacağı sunucunun ID'si
-- `LOGGING_WEBHOOK_URL`: Bot'un error'ları vs. için kullanılacak webhook'un linki, bu linki [Lara](https://lara.lv)'ya sorun.
 - `VERIFICATION_SUBMISSIONS_CHANNEL_ID`: Kullanıcılar onaylama formunu attığında, formun ve dogrulama butonlarının olduğu mesajın atılacağı kanalın ID'si, bu kanal sadece onaylama yetkisi olanların görebildiği bir kanal olmalı.
+
+Bu bilgileri [Lara](https://lara.lv)'ya sorun:
+- `LOGGING_WEBHOOK_URL`: Bot'un error'ları vs. için kullanılacak webhook'un linki
+- `SPREADSHEET_ID`: Onaylanma bilgilerinin kaydedileceği Google Sheet'in ID'si
+- `GOOGLE_SERVICE_ACCOUNT_EMAIL`: Google Sheets için kullanılacak olan servis hesabının e-postası
+
+### Gereken diğer dosyalar
+
+- `GoogleServiceAccountPrivateKey.key`: Google Servis Hesabının gizli anahtarı 

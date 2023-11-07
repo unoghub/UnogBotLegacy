@@ -31,6 +31,8 @@ struct VerificationModal {
 
         try await interaction.ack(isEphemeral: true)
 
+        let userID = try interaction.member.requireValue().user.requireValue().id.rawValue
+
         var textInputs: [Interaction.ActionRow.TextInput] = []
         for actionRow in modalSubmit.components {
             textInputs.append(try actionRow.components.first.requireValue().requireTextInput())
@@ -42,11 +44,12 @@ struct VerificationModal {
             fields: [
                 .init(
                     name: VerificationModal.userFieldName,
-                    value: "<@\(try interaction.member.requireValue().user.requireValue().id.rawValue)>"
+                    value: "<@\(userID)>"
                 )
             ]
         )
 
+        var sheetValues = [String(userID)]
         for var textInput in textInputs {
             let label = try VerificationModal.modal.components.requireComponent(customId: textInput.custom_id)
                 .requireTextInput()
@@ -56,15 +59,22 @@ struct VerificationModal {
             if textInput.value?.isEmpty == true {
                 textInput.value = nil
             }
+            let value: String = textInput.value ?? "Yok"
 
-            embed.fields?.append(.init(name: label, value: textInput.value ?? "Yok"))
+            sheetValues.append(value)
+            embed.fields?.append(.init(name: label, value: value))
         }
+        sheetValues.append("Onaylanmadı")
 
         try await Core.bot.client.createMessage(
             channelId: VerificationCore.submissionChannelId,
             payload: .init(embeds: [embed], components: [.init(components: [ApproveVerification.button])])
         )
         .guardSuccess()
+
+        try await Core.sheet.append(
+            range: "Onaylanmalar!A:A", values: .init(range: "Onaylanmalar!A:A", values: [sheetValues])
+        )
 
         try await interaction.followup(with: .init(embeds: [
             Embed(
