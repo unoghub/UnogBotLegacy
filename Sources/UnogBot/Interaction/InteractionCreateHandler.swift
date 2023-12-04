@@ -28,7 +28,7 @@ class InteractionCreateHandler {
             }
         } catch {
             do {
-                try await interaction.followup(with: .init(embeds: [Embed.internalError()]))
+                try await interaction.followup(with: .init(embeds: [Embed.internalError()], flags: [.ephemeral]))
             } catch {
                 Core.logger.error("couldn't followup with the default error embed: \(error)")
             }

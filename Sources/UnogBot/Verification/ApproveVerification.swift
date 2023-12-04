@@ -37,7 +37,7 @@ struct ApproveVerification {
         let cellRange = "Onaylanmalar!G\(rowIndex)"
         try await Core.sheet.update(range: cellRange, values: .init(range: cellRange, values: [["Onaylandı"]]))
 
-        try await interaction.editLast(with: .init(embeds: [
+        try await interaction.followup(with: .init(embeds: [
             .init(title: "✅ Kullanıcı onaylandı", color: .green, fields: [
                 .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı")
             ])

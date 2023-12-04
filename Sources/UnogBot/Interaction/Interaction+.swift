@@ -30,11 +30,6 @@ extension Interaction {
         try await Core.bot.client.createFollowupMessage(token: token, payload: message).guardSuccess()
     }
 
-    func editLast(with message: Payloads.InteractionResponse.Message) async throws {
-        try await Core.bot.client.createInteractionResponse(id: id, token: token, payload: .updateMessage(message))
-            .guardSuccess()
-    }
-
     func showModal(_ modal: Payloads.InteractionResponse.Modal) async throws {
         try await Core.bot.client.createInteractionResponse(
             id: id, token: token, payload: .modal(modal)
