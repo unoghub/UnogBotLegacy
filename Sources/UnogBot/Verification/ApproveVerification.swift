@@ -19,11 +19,14 @@ struct ApproveVerification {
             interaction.message?.embeds.first?.fields
         ).requireValue()
 
-        let userID = UserSnowflake(String(try (
-            embedFields.first { $0.name == VerificationModal.userFieldName }?.value
-                .dropFirst(ApproveVerification.mentionStartCharacterCount)
-                .dropLast(ApproveVerification.mentionEndCharacterCount)
-        ).requireValue()))
+        let userMention = try embedFields.first { $0.name == VerificationModal.userFieldName }.requireValue().value
+        let userID = UserSnowflake(
+            String(
+                userMention
+                    .dropFirst(ApproveVerification.mentionStartCharacterCount)
+                    .dropLast(ApproveVerification.mentionEndCharacterCount)
+            )
+        )
 
         let nameSurname = try embedFields.first { $0.name == VerificationModal.nameSurnameFieldName }
             .requireValue()
@@ -50,6 +53,7 @@ struct ApproveVerification {
 
         try await interaction.followup(with: .init(embeds: [
             .init(title: "✅ Kullanıcı onaylandı", color: .green, fields: [
+                .init(name: "Kullanıcı", value: userMention),
                 .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı."),
                 .init(name: "Rol", value: "Kullanıcıya *<@&\(Core.verifiedRoleID.rawValue)>* rolü verildi."),
                 .init(
