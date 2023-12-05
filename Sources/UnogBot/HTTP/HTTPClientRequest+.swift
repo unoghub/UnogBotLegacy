@@ -16,8 +16,7 @@ extension HTTPClientRequest {
 
         guard !(httpStatusCodeErrorLowerBound...httpStatusCodeErrorUpperBound ~= Int(response.status.code)) else {
             let responseBody = try await response.body()
-            Core.logger.error("sheets api request failed: \(self)\n\(responseBody)")
-            throw DefaultError()
+            throw HTTPError.requestFailed(request: self, response: response, responseBody: responseBody)
         }
 
         return response

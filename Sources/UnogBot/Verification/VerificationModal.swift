@@ -47,8 +47,7 @@ struct VerificationModal {
 
     func handle() async throws {
         guard case let .modalSubmit(modalSubmit) = interaction.data else {
-            Core.logger.error("verification modal submit interaction data is not of variant modal submit")
-            throw DefaultError()
+            throw VerificationError.verificationModalNotModalSubmit
         }
 
         try await interaction.ack(isEphemeral: true)

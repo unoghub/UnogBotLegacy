@@ -23,16 +23,11 @@ class InteractionCreateHandler {
                 try await VerificationModal(interaction: interaction).handle()
 
             default:
-                Core.logger.error("unknown interaction: \(interaction)")
-                throw DefaultError()
+                throw InteractionError.unknownInteraction
             }
         } catch {
-            do {
-                try await interaction.followup(with: .init(embeds: [Embed.internalError()]))
-            } catch {
-                Core.logger.error("couldn't followup with the default error embed: \(error)")
-            }
-            Core.logger.error("couldn't handle interaction: \(error)")
+            try await interaction.followup(with: .init(embeds: [Embed.internalError()]))
+            throw error
         }
     }
 }

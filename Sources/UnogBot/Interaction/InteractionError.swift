@@ -1,3 +1,3 @@
-extension Error {
+enum InteractionError: Error {
     case unknownInteraction
 }
