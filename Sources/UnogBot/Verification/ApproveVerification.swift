@@ -33,7 +33,15 @@ struct ApproveVerification {
         )
         .guardSuccess()
 
-        let rowIndex = try await Core.sheet.getSpreadsheet().sheets.first.requireValue().properties.gridProperties.rowCount - 1
+        let rowIndex = try await Core
+            .sheet
+            .getSpreadsheet()
+            .sheets
+            .first
+            .requireValue()
+            .properties
+            .gridProperties
+            .rowCount
         let cellRange = "Onaylanmalar!G\(rowIndex)"
         try await Core.sheet.update(range: cellRange, values: .init(range: cellRange, values: [["Onaylandı"]]))
 
