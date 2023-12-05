@@ -1,4 +1,5 @@
 import DiscordBM
+import Foundation
 
 struct VerificationModal {
     static let maxNicknameCharCount = 32
@@ -8,13 +9,13 @@ struct VerificationModal {
             .init(
                 custom_id: "NameSurname",
                 style: .short,
-                label: VerificationModal.nameSurnameFieldName,
+                label: nameSurnameFieldName.uppercased(with: Locale(identifier: "tr-TR")),
                 max_length: VerificationModal.maxNicknameCharCount
             ),
-            .init(custom_id: "Email", style: .short, label: "E-Posta Adresi"),
-            .init(custom_id: "Birthday", style: .short, label: "Doğum Tarihi", placeholder: "GG.AA.YYYY"),
-            .init(custom_id: "YearsOfExperience", style: .short, label: "Kaç yıldır oyun sektöründesiniz?"),
-            .init(custom_id: "Organization", style: .short, label: "Bulunduğunuz Kurum veya Ekip", required: false)
+            .init(custom_id: "Email", style: .short, label: "E-POSTA ADRESİ"),
+            .init(custom_id: "Birthday", style: .short, label: "DOĞUM TARİHİ", placeholder: "GG.AA.YYYY"),
+            .init(custom_id: "YearsOfExperience", style: .short, label: "KAÇ YILDIR OYUN SEKTÖRÜNDESİNİZ?"),
+            .init(custom_id: "Organization", style: .short, label: "BULUNDUĞUNUZ KURUM VEYA EKİP", required: false)
         ]
     )
 
@@ -33,10 +34,7 @@ struct VerificationModal {
 
         let userID = try interaction.member.requireValue().user.requireValue().id.rawValue
 
-        var textInputs: [Interaction.ActionRow.TextInput] = []
-        for actionRow in modalSubmit.components {
-            textInputs.append(try actionRow.components.first.requireValue().requireTextInput())
-        }
+        let textInputs = try modalSubmit.components.map { try $0.components.first.requireValue().requireTextInput() }
 
         var embed = Embed(
             title: "❔ Onaylama formu dolduruldu",
@@ -55,11 +53,15 @@ struct VerificationModal {
                 .requireTextInput()
                 .label
                 .requireValue()
+                .capitalized(with: Locale(identifier: "tr-TR"))
 
             if textInput.value?.isEmpty == true {
                 textInput.value = nil
             }
-            let value: String = textInput.value ?? "Yok"
+            var value: String = textInput.value ?? "Yok"
+            if label == VerificationModal.nameSurnameFieldName {
+                value = value.capitalized(with: Locale(identifier: "tr-TR"))
+            }
 
             sheetValues.append(value)
             embed.fields?.append(.init(name: label, value: value))
