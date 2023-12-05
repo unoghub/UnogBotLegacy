@@ -3,6 +3,10 @@ import Foundation
 
 struct VerificationModal {
     static let maxNicknameCharCount = 32
+    static let maxEmailCharCount = 254
+    static let maxBirthdayCharCount = 10
+    static let maxYearsOfExperienceCharCount = 2
+    static let maxOrganizationCharCount = 100
 
     static let modal = Payloads.InteractionResponse.Modal(
         custom_id: "VerificationModal", title: "📝 Onaylanma Formu", textInputs: [
@@ -12,10 +16,27 @@ struct VerificationModal {
                 label: nameSurnameFieldName.uppercased(with: Locale(identifier: "tr-TR")),
                 max_length: VerificationModal.maxNicknameCharCount
             ),
-            .init(custom_id: "Email", style: .short, label: "E-POSTA ADRESİ"),
-            .init(custom_id: "Birthday", style: .short, label: "DOĞUM TARİHİ", placeholder: "GG.AA.YYYY"),
-            .init(custom_id: "YearsOfExperience", style: .short, label: "KAÇ YILDIR OYUN SEKTÖRÜNDESİNİZ?"),
-            .init(custom_id: "Organization", style: .short, label: "BULUNDUĞUNUZ KURUM VEYA EKİP", required: false)
+            .init(custom_id: "Email", style: .short, label: "E-POSTA ADRESİ", max_length: maxEmailCharCount),
+            .init(
+                custom_id: "Birthday",
+                style: .short,
+                label: "DOĞUM TARİHİ",
+                max_length: maxBirthdayCharCount,
+                placeholder: "GG.AA.YYYY"
+            ),
+            .init(
+                custom_id: "YearsOfExperience",
+                style: .short,
+                label: "KAÇ YILDIR OYUN SEKTÖRÜNDESİNİZ?",
+                max_length: maxYearsOfExperienceCharCount
+            ),
+            .init(
+                custom_id: "Organization",
+                style: .short,
+                label: "BULUNDUĞUNUZ KURUM VEYA EKİP",
+                max_length: maxOrganizationCharCount,
+                required: false
+            )
         ]
     )
 
