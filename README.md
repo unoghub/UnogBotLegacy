@@ -10,18 +10,20 @@ Onaylama mesajını `/onaylanma_mesajını_at` komutuyla atabilirsiniz. Bu komut
 
 ### Kullanıcıyı Onaylama
 
-Kullanıcı formu doldurduğunda bot ayarlanan kanala bir mesaj atar. Bu mesajda kullanıcının formda yazdıkları ve _Onayla_ ve _Reddet_ tuşları bulunur.
+Kullanıcı formu doldurduğunda bot:
+- Ayarlanan kanala bir mesaj atar. Bu mesajda kullanıcının formda yazdıkları ve _Onayla_ butonu bulunur.
+- Sheet'e kullanıcı bilgilerini ve formda yazdıklarını ekler.
 
-- _Onayla_ tuşuna basıldığında, bot kullanıcının ismini formdaki isim soyisme ayarlar ve belirlenmis onaylandı rolünü verir.
-- _Reddet_ tuşuna basıldığında ise bot bu kullanıcıyı sunucudan atar.
-
-Her iki tuşta da bot onaylanma mesajını siler.
+_Onayla_ tuşuna basıldığında bot:
+- Kullanıcının ismini formdaki isim soyisme ayarlar.
+- Belirlenmiş onaylandı rolünü verir.
+- Sheet'teki doğrulanma durumunu günceller.
 
 ### Sheets Kullanımı
 
-Kullanıcı formu doldurduğunda bot belirlenen sheet'e tarih, form ve kullanıcı bilgilerini içeren bir satır ekler. Bu satırda _Onaylanma Durumu_, _Bekliyor_ diye ayarlanır.
+Kullanıcı formu doldurduğunda bot sheet'e kullanıcının ID'sini ve formdaki bilgileri içeren bir satır ekler. Bu satırda _Onaylanma Durumu_, _Onaylanmadı_ diye ayarlanır.
 
-Kullanıcı onaylandığında ya da reddedildiğinde bot bu satırdaki _Onaylanma Durumu_ sütununu _Onaylandı_ ya da _Reddedildi_ diye ayarlar.
+Kullanıcı onaylandığında bot bu satırdaki _Onaylanma Durumu_ sütununu _Onaylandı_ olarak ayarlanır.
 
 ## Hostlama
 
@@ -34,6 +36,7 @@ Kullanıcı onaylandığında ya da reddedildiğinde bot bu satırdaki _Onaylanm
 - `TOKEN`: Bot'un Discord Developer Portal'dan alınan token'ı
 - `GUILD_ID`: Komutların oluşturulacağı sunucunun ID'si
 - `VERIFICATION_SUBMISSIONS_CHANNEL_ID`: Kullanıcılar onaylama formunu attığında, formun ve dogrulama butonlarının olduğu mesajın atılacağı kanalın ID'si, bu kanal sadece onaylama yetkisi olanların görebildiği bir kanal olmalı.
+- `VERIFIED_ROLE_ID`: Kullanıcılar onaylandığında onlara verilecek rolün ID'si
 
 Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 - `LOGGING_WEBHOOK_URL`: Bot'un error'ları vs. için kullanılacak webhook'un linki

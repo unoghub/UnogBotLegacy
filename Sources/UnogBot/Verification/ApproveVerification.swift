@@ -24,14 +24,17 @@ struct ApproveVerification {
                 .dropFirst(ApproveVerification.mentionStartCharacterCount)
                 .dropLast(ApproveVerification.mentionEndCharacterCount)
         ).requireValue()))
+
         let nameSurname = try embedFields.first { $0.name == VerificationModal.nameSurnameFieldName }
             .requireValue()
             .value
-
         try await Core.bot.client.updateGuildMember(
             guildId: guildID, userId: userID, payload: .init(nick: nameSurname)
         )
         .guardSuccess()
+
+        try await Core.bot.client.addGuildMemberRole(guildId: guildID, userId: userID, roleId: Core.verifiedRoleID)
+            .guardSuccess()
 
         let rowIndex = try await Core
             .sheet
@@ -47,8 +50,12 @@ struct ApproveVerification {
 
         try await interaction.followup(with: .init(embeds: [
             .init(title: "✅ Kullanıcı onaylandı", color: .green, fields: [
-                .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı"),
-                .init(name: "Sheet", value: "[ÛNOG Onaylanmalar](\(Core.sheet.viewURL))")
+                .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı."),
+                .init(name: "Rol", value: "Kullanıcıya *<@&\(Core.verifiedRoleID.rawValue)>* rolü verildi."),
+                .init(
+                    name: "Sheet",
+                    value: "[ÜNOG Onaylanmalar](\(Core.sheet.viewURL))'daki onaylanma durumu güncellendi."
+                )
             ])
         ]))
     }
