@@ -27,14 +27,11 @@ class GoogleSheetsAPI: GoogleAPI {
     }
 
     let baseURL: URL
+    let viewURL: URL
 
     init(spreadsheetID: String) throws {
-        guard let url = URL(string: "https://sheets.googleapis.com/v4/spreadsheets/\(spreadsheetID)") else {
-            Core.logger.error("sheets api base url is invalid")
-            throw DefaultError()
-        }
-
-        baseURL = url
+        baseURL = URL(string: "https://sheets.googleapis.com/v4/spreadsheets/")!.appending(path: spreadsheetID)
+        viewURL = URL(string: "https://docs.google.com/spreadsheets/d/")!.appending(path: spreadsheetID)
     }
 
     func getSpreadsheet() async throws -> Spreadsheet {

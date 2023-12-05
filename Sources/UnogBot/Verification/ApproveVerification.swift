@@ -39,7 +39,8 @@ struct ApproveVerification {
 
         try await interaction.followup(with: .init(embeds: [
             .init(title: "✅ Kullanıcı onaylandı", color: .green, fields: [
-                .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı")
+                .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı"),
+                .init(name: "Sheet", value: "[ÛNOG Onaylanmalar](\(Core.sheet.viewURL))")
             ])
         ]))
     }
