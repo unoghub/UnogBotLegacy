@@ -8,11 +8,11 @@ class GoogleSheetsAPI: GoogleAPI {
     struct Sheet: Decodable {
         let properties: SheetProperties
     }
-    
+
     struct SheetProperties: Decodable {
         let gridProperties: GridProperties
     }
-    
+
     struct GridProperties: Decodable {
         let rowCount: Int
     }
@@ -35,7 +35,7 @@ class GoogleSheetsAPI: GoogleAPI {
     }
 
     func getSpreadsheet() async throws -> Spreadsheet {
-        return try await request(to: baseURL, method: .GET).send().body()
+        try await request(to: baseURL, method: .GET).send().body()
     }
 
     func append(

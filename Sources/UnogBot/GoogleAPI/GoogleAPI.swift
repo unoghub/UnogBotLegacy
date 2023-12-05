@@ -32,7 +32,11 @@ class GoogleAPI {
     var token: String!
     var tokenExpiry = Date()
 
-    func request(to url: URL, method: HTTPMethod, requiresAuthentication: Bool = true) async throws -> HTTPClientRequest {
+    func request(
+        to url: URL,
+        method: HTTPMethod,
+        requiresAuthentication: Bool = true
+    ) async throws -> HTTPClientRequest {
         var request = HTTPClientRequest(url: url.absoluteString)
         request.method = method
 
