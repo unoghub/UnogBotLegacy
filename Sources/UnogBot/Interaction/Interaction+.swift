@@ -26,7 +26,7 @@ extension Interaction {
         .guardSuccess()
     }
 
-    func followup(with message: Payloads.ExecuteWebhook, isEphemeral: Bool = false) async throws {
+    func followup(with message: Payloads.ExecuteWebhook) async throws {
         try await Core.bot.client.createFollowupMessage(token: token, payload: message).guardSuccess()
     }
 
