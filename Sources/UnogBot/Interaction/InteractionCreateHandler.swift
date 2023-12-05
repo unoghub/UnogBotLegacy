@@ -7,7 +7,7 @@ class InteractionCreateHandler {
         self.interaction = interaction
     }
 
-    func handle() async {
+    func handle() async throws {
         do {
             switch interaction.name {
             case CreateVerificationMessage.createPayload.name:

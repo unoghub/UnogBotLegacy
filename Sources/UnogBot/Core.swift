@@ -14,8 +14,8 @@ class Core {
             self.event = event
         }
 
-        func onInteractionCreate(_ interaction: Interaction) async {
-            await InteractionCreateHandler(interaction: interaction).handle()
+        func onInteractionCreate(_ interaction: Interaction) async throws {
+            try await InteractionCreateHandler(interaction: interaction).handle()
         }
     }
 
@@ -89,8 +89,7 @@ class Core {
         )
         .guardSuccess()
 
-        let stream = await bot.makeEventsStream()
-        for await event in stream {
+        for await event in await bot.events {
             EventHandler(event: event).handle()
         }
     }

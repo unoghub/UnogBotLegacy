@@ -1,0 +1,3 @@
+extension Error {
+    case unknownInteraction
+}
