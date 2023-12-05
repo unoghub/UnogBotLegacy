@@ -67,7 +67,7 @@ struct VerificationModal {
         sheetValues.append("Onaylanmadı")
 
         try await Core.bot.client.createMessage(
-            channelId: VerificationCore.submissionChannelId,
+            channelId: Core.submissionChannelID,
             payload: .init(embeds: [embed], components: [.init(components: [ApproveVerification.button])])
         )
         .guardSuccess()
