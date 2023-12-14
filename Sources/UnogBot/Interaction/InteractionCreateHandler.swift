@@ -26,8 +26,13 @@ class InteractionCreateHandler {
                 throw InteractionError.unknownInteraction
             }
         } catch {
-            try await interaction.followup(with: .init(embeds: [Embed.internalError()]))
-            throw error
+            var combinedError = CombinedError(errors: [error])
+            do {
+                try await interaction.followup(with: .init(embeds: [Embed.internalError()]))
+            } catch {
+                combinedError.errors.append(error)
+            }
+            throw combinedError
         }
     }
 }
