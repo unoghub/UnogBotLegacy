@@ -39,7 +39,7 @@ class Core {
         ProcessInfo.processInfo.environment["VERIFICATION_SUBMISSIONS_CHANNEL_ID"]!
     )
     static let verifiedRoleID = RoleSnowflake(
-        ProcessInfo.processInfo.environment["VERIFIED_ROLE_ID"]!
+        ProcessInfo.processInfo.environment["UNVERIFIED_ROLE_ID"]!
     )
     static let loggingWebhookURL = ProcessInfo.processInfo.environment["LOGGING_WEBHOOK_URL"]!
     static let spreadsheetID = ProcessInfo.processInfo.environment["SPREADSHEET_ID"]!

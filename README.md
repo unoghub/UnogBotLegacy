@@ -16,10 +16,11 @@ Kullanıcı formu doldurduğunda bot:
 
 _Onayla_ tuşuna basıldığında bot:
 - Kullanıcının ismini formdaki isim soyisme ayarlar.
-- Belirlenmiş onaylandı rolünü verir.
+    - Aynı zamanda isim ve soyismin ilk harflerini büyük harf yapar.
+- Belirlenmiş onaylanmadı rolünü kullanıcıdan alır.
 - Sheet'teki doğrulanma durumunu günceller.
 
-> Onaylandı rolünün verilebilmesi için bot'un rolünün onaylandı rolünün ve onaylanacak kullanıcının rollerinin üzerinde olması gerekir. 
+> Onaylandı rolünün verilebilmesi için bot'un rolünün onaylanmadı rolünün ve onaylanacak kullanıcının rollerinin üzerinde olması gerekir. 
 
 ### Sheets Kullanımı
 
@@ -38,7 +39,7 @@ Kullanıcı onaylandığında bot bu satırdaki _Onaylanma Durumu_ sütununu _On
 - `TOKEN`: Bot'un Discord Developer Portal'dan alınan token'ı
 - `GUILD_ID`: Komutların oluşturulacağı sunucunun ID'si
 - `VERIFICATION_SUBMISSIONS_CHANNEL_ID`: Kullanıcılar onaylama formunu attığında, formun ve dogrulama butonlarının olduğu mesajın atılacağı kanalın ID'si, bu kanal sadece onaylama yetkisi olanların görebildiği bir kanal olmalı.
-- `VERIFIED_ROLE_ID`: Kullanıcılar onaylandığında onlara verilecek rolün ID'si
+- `UNVERIFIED_ROLE_ID`: Kullanıcılar onaylandığında onlardan alınacak rolün ID'si
 
 Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 - `LOGGING_WEBHOOK_URL`: Bot'un error'ları vs. için kullanılacak webhook'un linki
@@ -47,4 +48,4 @@ Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 
 ### Gereken diğer dosyalar
 
-- `GoogleServiceAccountPrivateKey.key`: Google Servis Hesabının gizli anahtarı 
+- `GoogleServiceAccountPrivateKey.key`: Google Servis Hesabının gizli anahtarı
