@@ -1,5 +1,3 @@
-// TODO: look into using deferredUpdateMessage, ask discord devs for expected behavior
-
 import DiscordBM
 
 struct ApproveVerification {
