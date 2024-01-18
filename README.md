@@ -2,7 +2,7 @@
 
 ## Kurulum
 
-### Onaylama Mesajını Atma
+### Onaylama Mesajını Atma
 
 Onaylama mesajını `/onaylanma_mesajını_at` komutuyla atabilirsiniz. Bu komut, kullanıldığı kanala onaylanma mesajını atar. Onaylama mesajı onaylanma formunu açan butonun olduğu mesajdır.
 
