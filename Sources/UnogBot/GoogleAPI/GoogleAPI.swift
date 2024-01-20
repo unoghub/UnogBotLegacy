@@ -1,15 +1,17 @@
 import AsyncHTTPClient
 import Foundation
+import JWTKit
 import NIOHTTP1
-import SwiftJWT
 
 class GoogleAPI {
-    struct GoogleAuthenticationClaims: Claims {
-        var iss = "verification@unogbot.iam.gserviceaccount.com"
-        var scope = "https://www.googleapis.com/auth/spreadsheets"
-        var aud = "https://oauth2.googleapis.com/token"
-        var exp = Date() + TimeInterval.hour
-        var iat = Date()
+    struct GoogleAuthenticationClaims: JWTPayload {
+        let iss: IssuerClaim
+        let scope: String
+        let aud: AudienceClaim
+        let exp: ExpirationClaim
+        let iat: IssuedAtClaim
+
+        func verify(using signer: JWTKit.JWTSigner) {}
     }
 
     struct AccessTokenRequest: Encodable {
@@ -22,13 +24,18 @@ class GoogleAPI {
         let expiresIn: Int
     }
 
-    var claims = GoogleAuthenticationClaims()
-    let signer = {
-        let pem = Core.googleServiceAccountPrivateKey
-        return JWTSigner.rs256(privateKey: pem)
+    var claims = GoogleAuthenticationClaims(
+        iss: IssuerClaim(value: "verification@unogbot.iam.gserviceaccount.com"),
+        scope: "https://www.googleapis.com/auth/spreadsheets",
+        aud: AudienceClaim(stringLiteral: "https://oauth2.googleapis.com/token"),
+        exp: ExpirationClaim(value: Date() + TimeInterval.hour),
+        iat: IssuedAtClaim(value: Date())
+    )
+    let signers = {
+        let signers = JWTSigners()
+        try! signers.use(.rs256(key: .private(pem: Core.googleServiceAccountPrivateKey)))
+        return signers
     }()
-    var jwt = JWT(claims: GoogleAuthenticationClaims())
-
     var token: String!
     var tokenExpiry = Date()
 
@@ -41,15 +48,15 @@ class GoogleAPI {
         request.method = method
 
         if requiresAuthentication {
-            request.headers.add(name: "Authorization", value: "Bearer \(try await token())")
+            try request.headers.add(name: "Authorization", value: "Bearer \(await token())")
         }
 
         return request
     }
 
     func token() async throws -> String {
-        if tokenExpiry.timeIntervalSinceNow < TimeInterval.minute { // 1 minute
-            let signedJWT = try jwt.sign(using: signer)
+        if tokenExpiry.timeIntervalSinceNow < TimeInterval.minute {
+            let signedJWT = try signers.sign(claims)
 
             var request = try await request(
                 to: URL(string: "https://oauth2.googleapis.com/token")!,
