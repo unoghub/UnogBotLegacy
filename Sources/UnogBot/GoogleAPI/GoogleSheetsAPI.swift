@@ -30,8 +30,8 @@ class GoogleSheetsAPI: GoogleAPI {
     let viewURL: URL
 
     init(spreadsheetID: String) throws {
-        baseURL = URL(string: "https://sheets.googleapis.com/v4/spreadsheets/")!.appending(path: spreadsheetID)
-        viewURL = URL(string: "https://docs.google.com/spreadsheets/d/")!.appending(path: spreadsheetID)
+        baseURL = URL(string: "https://sheets.googleapis.com/v4/spreadsheets/")!.appendingPathComponent(spreadsheetID)
+        viewURL = URL(string: "https://docs.google.com/spreadsheets/d/")!.appendingPathComponent(spreadsheetID)
     }
 
     func getSpreadsheet() async throws -> Spreadsheet {
@@ -41,9 +41,9 @@ class GoogleSheetsAPI: GoogleAPI {
     func append(
         range: String, values: ValueRange, valueInputOption: ValueInputOption = .userEntered
     ) async throws {
-        let url = baseURL
-            .appending(path: "values")
-            .appending(path: "\(range):append")
+        let url = try baseURL
+            .appendingPathComponent("values")
+            .appendingPathComponent("\(range):append")
             .appending(valueInputOption: valueInputOption)
 
         var request = try await request(to: url, method: .POST)
@@ -53,7 +53,10 @@ class GoogleSheetsAPI: GoogleAPI {
     }
 
     func update(range: String, values: ValueRange, valueInputOption: ValueInputOption = .userEntered) async throws {
-        let url = baseURL.appending(path: "values").appending(path: range).appending(valueInputOption: valueInputOption)
+        let url = try baseURL
+            .appendingPathComponent("values")
+            .appendingPathComponent(range)
+            .appending(valueInputOption: valueInputOption)
 
         var request = try await request(to: url, method: .PUT)
         try request.setBody(to: values)
