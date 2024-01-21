@@ -22,7 +22,7 @@ _Onayla_ tuşuna basıldığında bot:
 
 > Onaylandı rolünün verilebilmesi için bot'un rolünün onaylanmadı rolünün ve onaylanacak kullanıcının rollerinin üzerinde olması gerekir. 
 
-### Sheets Kullanımı
+### Sheets Kullanımı
 
 Kullanıcı formu doldurduğunda bot sheet'e kullanıcının ID'sini ve formdaki bilgileri içeren bir satır ekler. Bu satırda _Onaylanma Durumu_, _Onaylanmadı_ diye ayarlanır.
 
