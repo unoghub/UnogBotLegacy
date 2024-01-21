@@ -1,32 +1,20 @@
 # ÜNOG Bot
 
-## Kurulum
+ÜNOG Discord sunucusunda kullanılan Discord botu
 
-### Onaylama Mesajını Atma
+Şu anda sadece kullanıcıların onaylanmasını sağlar.
 
-Onaylama mesajını `/onaylanma_mesajını_at` komutuyla atabilirsiniz. Bu komut, kullanıldığı kanala onaylanma mesajını atar. Onaylama mesajı onaylanma formunu açan butonun olduğu mesajdır.
-
-> Bu komutu sadece _Sunucuyu Yönet_ izni olan kişiler görür ve kullanabilir.
-
-### Kullanıcıyı Onaylama
+## Onaylama
 
 Kullanıcı formu doldurduğunda bot:
 - Ayarlanan kanala bir mesaj atar. Bu mesajda kullanıcının formda yazdıkları ve _Onayla_ butonu bulunur.
-- Sheet'e kullanıcı bilgilerini ve formda yazdıklarını ekler.
+- Sheet'e kullanıcının Discord ID'sini ve formda yazdıklarını ekler.
 
-_Onayla_ tuşuna basıldığında bot:
+_Onayla_ butonuna basıldığında bot:
 - Kullanıcının ismini formdaki isim soyisme ayarlar.
     - Aynı zamanda isim ve soyismin ilk harflerini büyük harf yapar.
 - Belirlenmiş onaylanmadı rolünü kullanıcıdan alır.
-- Sheet'teki doğrulanma durumunu günceller.
-
-> Onaylandı rolünün verilebilmesi için bot'un rolünün onaylanmadı rolünün ve onaylanacak kullanıcının rollerinin üzerinde olması gerekir. 
-
-### Sheets Kullanımı
-
-Kullanıcı formu doldurduğunda bot sheet'e kullanıcının ID'sini ve formdaki bilgileri içeren bir satır ekler. Bu satırda _Onaylanma Durumu_, _Onaylanmadı_ diye ayarlanır.
-
-Kullanıcı onaylandığında bot bu satırdaki _Onaylanma Durumu_ sütununu _Onaylandı_ olarak ayarlanır.
+- Sheet'teki onaylanma durumunu günceller.
 
 ## Hostlama
 
@@ -46,6 +34,47 @@ Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 - `SPREADSHEET_ID`: Onaylanma bilgilerinin kaydedileceği Google Sheet'in ID'si
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL`: Google Sheets için kullanılacak olan servis hesabının e-postası
 
-### Gereken diğer dosyalar
+### Dosyalar
 
-- `GoogleServiceAccountPrivateKey.key`: Google Servis Hesabının gizli anahtarı
+- `GoogleServiceAccountPrivateKey.key`: Google Sheets için kullanılacak olan servis hesabının gizli anahtarı
+
+### Bot'u Davet Etmek
+
+#### Scope'lar
+
+- bot
+- applications.commands
+
+#### İzinler
+
+##### Genel
+
+- Manage Roles
+- Manage Nicknames
+
+##### Kanallara Özel
+
+- `/onaylanma_mesajını_at` komutunun kullanıldığı kanalda:
+    - Send Messages
+- `VERIFICATION_SUBMISSIONS_CHANNEL_ID`:
+    - Send Messages
+
+#### Davet Linki
+
+> Bu link, bot'un scope'larını ve izinlerini de belirtir.
+
+`https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&permissions=402655232&scope=applications.commands+bot`
+
+> `{CLIENT_ID}`'yi bot'un application ID'si ile değiştirin.
+
+#### Ekledikten Sonra Yapılacaklar
+
+##### Bot'un Rolünün Konumu
+
+Onaylanmadı rolünün alınabilmesi için bot'un rolünü, onaylanmadı rolünün ve onaylanacak kullanıcının rollerinin üstüne yerleştirin.
+
+##### Onaylanma Mesajının Atılması
+
+Onaylama mesajını, `/onaylanma_mesajını_at` komutuyla atın. Bu komut, kullanıldığı kanala onaylanma mesajını atar. Onaylama mesajı onaylanma formunu açan butonun olduğu mesajdır.
+
+> Bu komutu sadece _Sunucuyu Yönet_ izni olan kişiler görür ve kullanabilir.
