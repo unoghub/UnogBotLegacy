@@ -20,6 +20,33 @@ _Onayla_ butonuna basıldığında bot:
 
 > Bu bilgiler botu sunucusunda hostlayan kişi için gerekli.
 
+### Build'leme
+
+> Bu komutlar sadece Debian 12'de denenmiştir.
+
+1. Swift için gerekli dependency'leri kurun:
+    - `sudo apt-get install binutils git libc6-dev libcurl4 libedit2 libsqlite3-0 pkg-config tzdata zlib1g-dev gnupg2 libgcc-12-dev libstdc++-12-dev libz3-dev uuid-dev libcurl4-openssl-dev libpython3.8 libxml2-dev unzip`
+2. Swift 5.9.2'nin tarball'ını indirin:
+    - `wget https://download.swift.org/swift-5.9.2-release/ubuntu2204/swift-5.9.2-RELEASE/swift-5.9.2-RELEASE-ubuntu22.04.tar.gz`
+3. `tar` dosyasını extract'leyin:
+    - `tar xzf swift-5.9.2-RELEASE-ubuntu22.04.tar.gz`
+4. Swift'i `PATH`'e ekleyin:
+    - `PATH="$HOME/swift-5.9.2-RELEASE-ubuntu22.04/usr/bin:$PATH"`
+5. Repo'yu klonlayın:
+    - `git clone https://github.com/unoghub/UnogBot`
+6. Repo'nun klasörüne girin:
+    - `cd UnogBot`
+7. SwiftLint'i kapatın:
+    - `Package.swift` dosyasında şu satırların başına `//` ekleyin:
+        - `.package(url: "https://github.com/realm/SwiftLint.git", from: "0.0.0"),`
+        - `plugins: [`
+        - `.plugin(name: "SwiftLintPlugin", package: "SwiftLint"),`
+        - `plugins: [` satırından sonraki ilk `]`'in olduğu satır
+    - Yine `Package.swift` dosyasında `dependencies: [` satırından sonraki ilk `]`'den sonraki `,`'ü silin.
+8. Release için build'leyin:
+    - `swift build -c release`
+9. Uygulama `UnogBot/.build/release/UnogBot`'ta.
+
 ### Environment Variable'ları
 
 > `.env` dosyası kullanılabilir.
@@ -38,7 +65,7 @@ Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 
 - `GoogleServiceAccountPrivateKey.key`: Google Sheets için kullanılacak olan servis hesabının gizli anahtarı
 
-### Bot'u Davet Etmek
+### Bot'u Davet Etme
 
 #### Scope'lar
 
