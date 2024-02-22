@@ -13,7 +13,7 @@ Kullanıcı formu doldurduğunda bot:
 _Onayla_ butonuna basıldığında bot:
 - Kullanıcının ismini formdaki isim soyisme ayarlar.
     - Aynı zamanda isim ve soyismin ilk harflerini büyük harf yapar.
-- Belirlenmiş onaylanmadı rolünü kullanıcıdan alır.
+- Belirlenmiş onaylandı rolünü kullanıcıya verir.
 - Sheet'teki onaylanma durumunu günceller.
 
 ## Hostlama
@@ -54,7 +54,7 @@ _Onayla_ butonuna basıldığında bot:
 - `TOKEN`: Bot'un Discord Developer Portal'dan alınan token'ı
 - `GUILD_ID`: Komutların oluşturulacağı sunucunun ID'si
 - `VERIFICATION_SUBMISSIONS_CHANNEL_ID`: Kullanıcılar onaylama formunu attığında, formun ve dogrulama butonlarının olduğu mesajın atılacağı kanalın ID'si, bu kanal sadece onaylama yetkisi olanların görebildiği bir kanal olmalı.
-- `UNVERIFIED_ROLE_ID`: Kullanıcılar onaylandığında onlardan alınacak rolün ID'si
+- `VERIFIED_ROLE_ID`: Kullanıcılar onaylandığında onlara verilecek rolün ID'si
 
 Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 - `LOGGING_WEBHOOK_URL`: Bot'un error'ları vs. için kullanılacak webhook'un linki
@@ -98,7 +98,7 @@ Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 
 ##### Bot'un Rolünün Konumu
 
-Onaylanmadı rolünün alınabilmesi için bot'un rolünü, onaylanmadı rolünün ve onaylanacak kullanıcının rollerinin üstüne yerleştirin.
+Onaylandı rolünün verilebilmesi için bot'un rolünü, onaylandı rolünün ve onaylanacak kullanıcının rollerinin üstüne yerleştirin.
 
 ##### Onaylanma Mesajının Atılması
 

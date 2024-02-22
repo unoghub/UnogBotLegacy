@@ -33,7 +33,7 @@ struct ApproveVerification {
             .value
         try await updateNick(ofUser: userID, inGuild: guildID, to: nameSurname)
 
-        try await Core.bot.client.deleteGuildMemberRole(guildId: guildID, userId: userID, roleId: Core.verifiedRoleID)
+        try await Core.bot.client.addGuildMemberRole(guildId: guildID, userId: userID, roleId: Core.verifiedRoleID)
             .guardSuccess()
 
         try await updateSheet()
@@ -45,7 +45,7 @@ struct ApproveVerification {
                         title: "✅ Kullanıcı onaylandı", color: .green, fields: [
                             .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı."),
                             .init(
-                                name: "Rol", value: "Kullanıcıdan *<@&\(Core.verifiedRoleID.rawValue)>* rolü alındı."
+                                name: "Rol", value: "Kullanıcıya *<@&\(Core.verifiedRoleID.rawValue)>* rolü verildi."
                             ),
                             .init(
                                 name: "Sheet",
