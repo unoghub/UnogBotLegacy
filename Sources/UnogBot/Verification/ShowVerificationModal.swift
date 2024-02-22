@@ -2,7 +2,7 @@ import DiscordBM
 
 struct ShowVerificationModal {
     static let button = Interaction.ActionRow.Component.button(.init(
-        style: .primary, label: "Onaylanma Formunu Aç", custom_id: "ShowVerificationModal"
+        style: .primary, label: "Doğrulanma Formunu Aç", custom_id: "ShowVerificationModal"
     ))
 
     let interaction: Interaction

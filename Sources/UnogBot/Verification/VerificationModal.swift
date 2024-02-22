@@ -9,7 +9,7 @@ struct VerificationModal {
     static let maxOrganizationCharCount = 100
 
     static let modal = Payloads.InteractionResponse.Modal(
-        custom_id: "VerificationModal", title: "📝 Onaylanma Formu", textInputs: [
+        custom_id: "VerificationModal", title: "📝 Doğrulanma Formu", textInputs: [
             .init(
                 custom_id: "NameSurname",
                 style: .short,
@@ -57,7 +57,7 @@ struct VerificationModal {
         let textInputs = try modalSubmit.components.map { try $0.components.first.requireValue().requireTextInput() }
 
         var embed = Embed(
-            title: "❔ Onaylama formu dolduruldu",
+            title: "❔ Doğrulanma formu dolduruldu",
             color: .blue,
             fields: [
                 .init(
@@ -86,7 +86,7 @@ struct VerificationModal {
             sheetValues.append(value)
             embed.fields?.append(.init(name: label, value: value))
         }
-        sheetValues.append("Onaylanmadı")
+        sheetValues.append("Doğrulanmadı")
 
         try await Core.bot.client.createMessage(
             channelId: Core.submissionChannelID,
@@ -95,13 +95,13 @@ struct VerificationModal {
         .guardSuccess()
 
         try await Core.sheet.append(
-            range: "Onaylanmalar!A:A", values: .init(range: "Onaylanmalar!A:A", values: [sheetValues])
+            range: "Doğrulanmalar!A:A", values: .init(range: "Doğrulanmalar!A:A", values: [sheetValues])
         )
 
         try await interaction.followup(with: .init(embeds: [
             Embed(
-                title: "📨 Onaylama formunuz iletildi",
-                description: "Formunuzda bir sorun yoksa yakında onaylanacaksınız. Şimdiden hoş geldiniz!",
+                title: "📨 Doğrulanma formunuz iletildi",
+                description: "Formunuzda bir sorun yoksa yakında doğrulanacaksınız. Şimdiden hoş geldiniz!",
                 color: .green
             )
         ]))

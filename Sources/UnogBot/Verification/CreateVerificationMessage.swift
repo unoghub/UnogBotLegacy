@@ -3,8 +3,8 @@ import Foundation
 
 struct CreateVerificationMessage {
     static let createPayload = Payloads.ApplicationCommandCreate(
-        name: "onaylanma_mesajını_at",
-        description: "Bu kanala onaylanma mesajını at",
+        name: "doğrulanma_mesajını_at",
+        description: "Bu kanala doğrulanma mesajını at",
         default_member_permissions: [.manageGuild],
         type: .chatInput
     )
@@ -24,8 +24,8 @@ struct CreateVerificationMessage {
             with: .init(
                 embeds: [
                     .init(
-                        title: "📨 Onaylanma mesajı atıldı",
-                        description: "Kullanıcılar bu mesajdaki butonu kullanarak onaylanma formunu açabilecek.",
+                        title: "📨 Doğrulanma mesajı atıldı",
+                        description: "Kullanıcılar bu mesajdaki butonu kullanarak doğrulanma formunu açabilecek.",
                         color: .green
                     )
                 ]

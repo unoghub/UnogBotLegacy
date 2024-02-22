@@ -5,7 +5,7 @@ struct ApproveVerification {
     static let mentionEndCharacterCount = 1
 
     static let button = Interaction.ActionRow.Component.button(.init(
-        style: .success, label: "Onayla", custom_id: "ApproveVerification"
+        style: .success, label: "Doğrula", custom_id: "ApproveVerification"
     ))
 
     let interaction: Interaction
@@ -42,14 +42,14 @@ struct ApproveVerification {
             token: interaction.token, payload: .init(
                 embeds: [
                     .init(
-                        title: "✅ Kullanıcı onaylandı", color: .green, fields: [
+                        title: "✅ Kullanıcı doğrulandı", color: .green, fields: [
                             .init(name: "Nick", value: "Kullanıcının nick'i *\(nameSurname)* olarak ayarlandı."),
                             .init(
                                 name: "Rol", value: "Kullanıcıya *<@&\(Core.verifiedRoleID.rawValue)>* rolü verildi."
                             ),
                             .init(
                                 name: "Sheet",
-                                value: "[ÜNOG Onaylanmalar](\(Core.sheet.viewURL))'daki onaylanma durumu güncellendi."
+                                value: "[ÜNOG Doğrulanmalar](\(Core.sheet.viewURL))'daki doğrulanma durumu güncellendi."
                             )
                         ] + embedFields
                     )
@@ -66,7 +66,7 @@ struct ApproveVerification {
                 .init(
                     embeds: [
                         .init(
-                            title: "🔄 Kullanıcı onaylanıyor",
+                            title: "🔄 Kullanıcı doğrulanıyor",
                             description: "Bu sadece birkaç saniye sürecek.",
                             color: .yellow
                         )
@@ -88,8 +88,8 @@ struct ApproveVerification {
             .properties
             .gridProperties
             .rowCount
-        let cellRange = "Onaylanmalar!G\(rowIndex)"
-        try await Core.sheet.update(range: cellRange, values: .init(range: cellRange, values: [["Onaylandı"]]))
+        let cellRange = "Doğrulanmalar!G\(rowIndex)"
+        try await Core.sheet.update(range: cellRange, values: .init(range: cellRange, values: [["Doğrulandı"]]))
     }
 
     func updateNick(ofUser userID: UserSnowflake, inGuild guildID: GuildSnowflake, to nick: String) async throws {

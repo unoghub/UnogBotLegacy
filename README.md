@@ -2,19 +2,19 @@
 
 ÜNOG Discord sunucusunda kullanılan Discord botu
 
-Şu anda sadece kullanıcıların onaylanmasını sağlar.
+Şu anda sadece kullanıcıların doğrulanmasını sağlar.
 
-## Onaylama
+## Doğrulanma
 
 Kullanıcı formu doldurduğunda bot:
-- Ayarlanan kanala bir mesaj atar. Bu mesajda kullanıcının formda yazdıkları ve _Onayla_ butonu bulunur.
+- Ayarlanan kanala bir mesaj atar. Bu mesajda kullanıcının formda yazdıkları ve _Doğrula_ butonu bulunur.
 - Sheet'e kullanıcının Discord ID'sini ve formda yazdıklarını ekler.
 
-_Onayla_ butonuna basıldığında bot:
+_Doğrula_ butonuna basıldığında bot:
 - Kullanıcının ismini formdaki isim soyisme ayarlar.
     - Aynı zamanda isim ve soyismin ilk harflerini büyük harf yapar.
-- Belirlenmiş onaylandı rolünü kullanıcıya verir.
-- Sheet'teki onaylanma durumunu günceller.
+- Belirlenmiş doğrulandı rolünü kullanıcıya verir.
+- Sheet'teki doğrulanma durumunu günceller.
 
 ## Hostlama
 
@@ -53,12 +53,12 @@ _Onayla_ butonuna basıldığında bot:
 
 - `TOKEN`: Bot'un Discord Developer Portal'dan alınan token'ı
 - `GUILD_ID`: Komutların oluşturulacağı sunucunun ID'si
-- `VERIFICATION_SUBMISSIONS_CHANNEL_ID`: Kullanıcılar onaylama formunu attığında, formun ve dogrulama butonlarının olduğu mesajın atılacağı kanalın ID'si, bu kanal sadece onaylama yetkisi olanların görebildiği bir kanal olmalı.
-- `VERIFIED_ROLE_ID`: Kullanıcılar onaylandığında onlara verilecek rolün ID'si
+- `VERIFICATION_SUBMISSIONS_CHANNEL_ID`: Kullanıcılar doğrulanma formunu doldurduğunda, formun ve dogrulama butonunun olduğu mesajın atılacağı kanalın ID'si, bu kanal sadece doğrulanma yetkisi olanların görebildiği bir kanal olmalı.
+- `VERIFIED_ROLE_ID`: Kullanıcılar doğrulandığında onlara verilecek rolün ID'si
 
 Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 - `LOGGING_WEBHOOK_URL`: Bot'un error'ları vs. için kullanılacak webhook'un linki
-- `SPREADSHEET_ID`: Onaylanma bilgilerinin kaydedileceği Google Sheet'in ID'si
+- `SPREADSHEET_ID`: Doğrulanma bilgilerinin kaydedileceği Google Sheet'in ID'si
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL`: Google Sheets için kullanılacak olan servis hesabının e-postası
 
 ### Dosyalar
@@ -81,7 +81,7 @@ Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 
 ##### Kanallara Özel
 
-- `/onaylanma_mesajını_at` komutunun kullanıldığı kanalda:
+- `/doğrulanma_mesajını_at` komutunun kullanıldığı kanalda:
     - Send Messages
 - `VERIFICATION_SUBMISSIONS_CHANNEL_ID`:
     - Send Messages
@@ -98,10 +98,10 @@ Bu bilgileri [Lara](https://lara.lv)'ya sorun:
 
 ##### Bot'un Rolünün Konumu
 
-Onaylandı rolünün verilebilmesi için bot'un rolünü, onaylandı rolünün ve onaylanacak kullanıcının rollerinin üstüne yerleştirin.
+Doğrulandı rolünün verilebilmesi için bot'un rolünü, doğrulandı rolünün ve doğrulanacak kullanıcının rollerinin üstüne yerleştirin.
 
-##### Onaylanma Mesajının Atılması
+##### Doğrulanma Mesajının Atılması
 
-Onaylama mesajını, `/onaylanma_mesajını_at` komutuyla atın. Bu komut, kullanıldığı kanala onaylanma mesajını atar. Onaylama mesajı onaylanma formunu açan butonun olduğu mesajdır.
+Doğrulanma mesajını, `/doğrulanma_mesajını_at` komutuyla atın. Bu komut, kullanıldığı kanala doğrulanma mesajını atar. Doğrulanma mesajı doğrulanma formunu açan butonun olduğu mesajdır.
 
 > Bu komutu sadece _Sunucuyu Yönet_ izni olan kişiler görür ve kullanabilir.
