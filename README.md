@@ -1,3 +1,7 @@
+# Eski Repo
+
+Bu repo bot'un eski kodunu içerir. Güncel versiyonu [UnogBot repo'sunda](https://github.com/unoghub/UnogBot) bulabilirsiniz.
+
 # ÜNOG Bot
 
 ÜNOG Discord sunucusunda kullanılan Discord botu
