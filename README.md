@@ -1,6 +1,6 @@
 # Eski Repo
 
-Bu repo bot'un eski kodunu içerir. Güncel versiyonu [UnogBot repo'sunda](https://github.com/unoghub/UnogBot) bulabilirsiniz.
+Bu repo bot'un eski kodunu içerir. Güncel versiyonu [`unog_bot` repo'sunda](https://github.com/unoghub/unog_bot) bulabilirsiniz.
 
 # ÜNOG Bot
 
